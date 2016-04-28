@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Flavien SICARD">
+
+    <title>Informations</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Data Tables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/stopcambriolage_catastrophe.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+<body>
+
+    <!--
+    ---- NAVIGATION BAR
+    --->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/dashboard/">
+                    <object data="img/gendarmerie_logo.svg" type="image/svg+xml" style="height:30px"></object>
+                </a>
+            </div>
+            <!-- /.navbar-header -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/pages/dashboard">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="/pages/remonte">Remontés</a>
+                    </li>
+                    <li>
+                        <a href="/pages/statistiques">Statistiques</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        sicard_f&nbsp;
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/accounts/edit/"><i class="fa fa-refresh" style="margin-right:10px"></i>Mode Catastrophe</a>
+                        </li>
+                        <li>
+                            <a href="/accounts/logout/"><i class="fa fa-sign-out" style="margin-right:8px"></i>Déconnexion</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            </div>
+            <!-- /.collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- /.navigation -->
+
+
+    <!--
+    ---- PAGE HEADER
+    --->
+    <div class="page-head">
+        <div class="container">
+            <div class="page-title">
+                <h1>Remonté <small>& bilan</small></h1>
+            </div>
+            <!-- /.page-title -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.page-head -->
+
+
+    <!--
+    ---- PAGE CONTENT
+    --->
+    <div class="page-content">
+        <div class="container">
+
+  
+
+
+
+
+         <div class="row">
+                <div class="col-lg-12 margin-bottom-10">
+                    <div class="portlet light">
+                        <div class="portlet-title">
+                            <div class="caption">Push</div>
+                        </div>
+                        <div class="portlet-body">
+                            <table id="push-table" class="display" cellspacing="0" width="100%">
+
+                                <thead>
+                                    <tr>
+                                        <th>Push</th>
+                                        <th>Département</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td><a href="/dashboard/push/{{ i.pk }}/" >LO2</a></td>
+                                        <td><a href="/dashboard/department/{{ i.department.zip }}/" >LO3</a></td>
+                                        <td>pr</td>
+                                    </tr>
+
+                                </tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.page-content -->
+
+
+    <!--
+    ---- FOOTER
+    --->
+    <div class="page-footer">
+        <div class="container"> 2016 &copy; Urgence - DGGN</div>
+    </div>
+    <!-- /.page-footer -->
+
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="js/jquery.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Data Tables JavaScript -->
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <!-- Settings Data Tables JavaScript -->
+    <script>
+        $(document).ready(function() {
+            $('#news-table').DataTable( {
+                "scrollX": true,
+                "scrollXollapse": true,
+                "language": { "lengthMenu": "Afficher _MENU_",
+                              "oPaginate": { "sFirst": "Suivant", // This is the link to the first page
+                                             "sPrevious": "Précédent", // This is the link to the previous page
+                                             "sNext": "Suivant", // This is the link to the next page
+                                             "sLast": "Précédent" }
+                            },
+                "info": false,
+                "bFilter": false,
+                {% if user_select.user.is_superuser == 1 %}
+                "order": [[ 2, "desc" ]],
+                "columnDefs": [ { "width": "150px", "targets": 1 }, { "width": "119px", "targets": 2 } ]
+                {% else %}
+                "order": [[ 1, "desc" ]],
+                "columnDefs": [ { "width": "119px", "targets": 1 } ]
+                {% endif %}
+            } );
+        } );
+
+        $(document).ready(function() {
+            $('#push-table').DataTable( {
+                "scrollX": true,
+                "scrollXollapse": true,
+                "language": { "lengthMenu": "Afficher _MENU_",
+                              "oPaginate": { "sFirst": "Suivant", // This is the link to the first page
+                                             "sPrevious": "Précédent", // This is the link to the previous page
+                                             "sNext": "Suivant", // This is the link to the next page
+                                             "sLast": "Précédent" }
+                            },
+                "info": false,
+                "bFilter": false,
+                {% if user_select.user.is_superuser == 1 %}
+                "order": [[ 2, "desc" ]],
+                "columnDefs": [ { "width": "150px", "targets": 1 }, { "width": "119px", "targets": 2 } ]
+                {% else %}
+                "order": [[ 1, "desc" ]],
+                "columnDefs": [ { "width": "119px", "targets": 1 } ]
+                {% endif %}
+            } );
+        } );
+    </script>
+</body>
+
+
+</html>

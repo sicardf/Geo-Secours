@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html">
+  <meta charset="UTF-8">
+  <title>SIGNALEMENT D'UNE URGENCE</title>
+    <!-- <link rel="stylesheet" href="test.css"> -->
+    <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <%= stylesheet_link_tag    'form_issue', media: 'all' %>
+    <meta name="viewport" content="width=device-width, user-scalable=yes" />
+    <%= csrf_meta_tags %>
+ </head>
+<body>
+<div id = "header">
+    <a>
+        <object data="gendarmerie_logo.svg" type="image/svg+xml" style="height:30px"></object>
+    </a>
+    SIGNALEMENT D'UNE URGENCE
+</div>
+
+<input id="typers" type="hidden" name="issue[typeofperson]" value="0">
+<%= form_for(@issue) do |f| %>
+<div class ="container" style="background:#DCDCDC;">
+    <div class = "row-g">
+        <div class = "my-header" style="margin-top:10px">
+            <div class="my-font-header">Je suis</div>
+        </div>
+        <div id="vict" class="coucou">
+            <p class="my-font-header"><br/>Victime<br/><br/></p>
+        </div>
+        <div id="tem" class="coucou">
+            <p class="my-font-header"><br/>T�moin<br/><br/></p>
+
+        </div>
+        <div class = "my-header" style="margin-top:10px">
+            <div class="my-font-header">Nombre de victimes</div>
+        </div>
+        <label for="fader"></label>
+        <input class="barreload" type="range" value="1" max="10" min="1" id="fader" step="1" oninput="outputUpdate(value)">
+            <div class = "result" style="text-align: center">
+            <output for="fader" id="volume" class="number">1</output>
+            <input name="issue[nbr_victims]" id="nbvictim" type="hidden">
+
+            </div>
+        <script type="text/javascript">
+            function outputUpdate(vol) {
+            document.querySelector('#volume').value = vol;
+            document.querySelector('#nbvictim').value = vol;
+            }
+        </script>
+
+
+        <div class = "my-header" style="margin-top:10px">
+            <div class="my-font-header">Niveau d'urgence estim�</div>
+        </div>
+        <label for="faders"></label>
+        <input class="barreloads" type="range" value="1" max="5" min="1" id="faders" step="1" oninput="outputUpdates(value)">
+        <div class = "results" style="text-align: center">
+            <output for="faders" id="volumes" class="numbers">1</output>
+            <input name="issue[issue_level]" id="lvl" type="hidden">
+        </div>
+
+        <script type="text/javascript">
+            function outputUpdates(vols) {
+                document.querySelector('#volumes').value = vols;
+                document.querySelector('#lvl').value = vols;
+            }
+        </script>
+
+    </div>
+</div>
+<div class="actions">
+    <button name="commit" type="submit" class="btn btn-default btn-lg" value="SIGNALER">
+      <span class="glyphicon glyphicon-upload"></span> SIGNALER
+    </button>
+</div>
+  <% end %>
+
+<div id = "footer" style="text-align:center">
+    <a>
+        <object data="gendarmerie_logo.svg" type="image/svg+xml" style="height:30px"></object>
+    </a>
+    Vous êtes en contact avec les services d'urgence
+</div>
+
+<script>
+$( document ).ready(function() {
+  $('#vict').click(function(){
+    $("#typers").val('1');
+  });
+
+  $('#tem').click(function(){
+    $("#typers").val('0');
+  });
+});
+</script>
+
+</body>
+</html>

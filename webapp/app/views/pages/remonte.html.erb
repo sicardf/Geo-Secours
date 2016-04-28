@@ -1,0 +1,214 @@
+  <!-- Bootstrap Core CSS -->
+  <!--  <link rel="stylesheet" href="css/bootstrap.min.css">-->
+  <!-- Data Tables CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Custom CSS -->
+  <!-- <link rel="stylesheet" href="css/stopcambriolage_catastrophe.css">-->
+
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+  <% i = 0 %>
+  <% if i == 0%>
+      <%= stylesheet_link_tag    'stopcambriolage_catastrophe', media: 'all'%>
+  <% end %>
+
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+<body>
+
+    <!--
+    ---- NAVIGATION BAR
+    --->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/issues">
+                  <%= image_tag("gendarmerie_logo.svg", height: '30') %>
+                </a>
+            </div>
+            <!-- /.navbar-header -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/issues">VSU</a>
+                    </li>
+                    <li class="active">
+                        <a href="/pages/remonte">Signalements</a>
+                    </li>
+                  <!--<li>
+                      <a href="/pages/info">Statistiques</a>
+                  </li>-->
+                    <li>
+                        <a href="/pages/reseaux">Réseaux Sociaux</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        sicard_f&nbsp;
+                        <i class="fa fa-chevron-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-refresh" style="margin-right:10px"></i>Mode Catastrophe</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-sign-out" style="margin-right:8px"></i>Déconnexion</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            </div>
+            <!-- /.collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- /.navigation -->
+
+
+    <!--
+    ---- PAGE HEADER
+    --->
+    <div class="page-head">
+        <div class="container">
+            <div class="page-title">
+                <h1>Signalements <small>& bilan</small></h1>
+            </div>
+            <!-- /.page-title -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.page-head -->
+
+
+    <!--
+    ---- PAGE CONTENT
+    --->
+    <div class="page-content">
+        <div class="container">
+
+
+
+
+
+
+         <div class="row">
+                <div class="col-lg-12 margin-bottom-10">
+                    <div class="portlet light">
+                        <div class="portlet-title">
+                            <div class="caption">Push</div>
+                        </div>
+                        <div class="portlet-body">
+                            <table id="push-table" class="display" cellspacing="0" width="100%">
+
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Nombre Victime</th>
+                                        <th>Importance</th>
+                                        <th>Téléphone</th>
+                                        <th>IP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                <% @issues.each do |issue| %>
+                                    <tr>
+                                    <td><%= distance_of_time_in_words_to_now(issue.updated_at) %></td>
+                                    <% if issue.typeofperson.to_s == TypeofPerson::VICTIME.to_s %>
+                                       <!-- <td><a href="/issues/show/<%= issue.id %>">Témoin</a></td>-->
+                                          <td><%= link_to "Victime", issue_path(issue)%> </td>
+                                    <% else %>
+                                          <td><%= link_to "Témoin", issue_path(issue)%> </td>
+                                    <% end %>
+                                    <td><%= issue.nbr_victims %></td>
+                                    <td><%= issue.issue_level %></td>
+                                    <td><%= issue.phone %></td>
+                                    <td><%= issue.ip %></td>
+                                      </tr>
+                                    <!--<li class="default" style="background-color: #1b6d85; color:white;"><p>+33123456789</p>Victime - inondation - 4/5</li>
+                                    <li class="default" style="background-color: red; color:white;"><p>+33123456789</p>Victime       - inondation - 4/5</li>-->
+                                <% end %>
+
+
+
+
+                                  <!--  <tr>
+                                        <td><a href="/dashboard/push/{{ i.pk }}/" >LO2</a></td>
+                                        <td><a href="/dashboard/department/{{ i.department.zip }}/" >LO3</a></td>
+                                        <td>pr</td>
+                                    </tr>-->
+
+                                </tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.page-content -->
+
+
+    <!--
+    ---- FOOTER
+    --->
+    <div class="page-footer">
+        <div class="container"> 2016 &copy; Urgence - DGGN</div>
+    </div>
+    <!-- /.page-footer -->
+
+    <!-- Data Tables JavaScript -->
+    <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <!-- Settings Data Tables JavaScript -->
+    <script>
+        $(document).ready(function() {
+            $('#news-table').DataTable( {
+                "scrollX": true,
+                "scrollXollapse": true,
+                "language": { "lengthMenu": "Afficher _MENU_",
+                              "oPaginate": { "sFirst": "Suivant", // This is the link to the first page
+                                             "sPrevious": "Précédent", // This is the link to the previous page
+                                             "sNext": "Suivant", // This is the link to the next page
+                                             "sLast": "Précédent" }
+                            },
+                "info": false,
+                "bFilter": false,
+            } );
+        } );
+
+        $(document).ready(function() {
+            $('#push-table').DataTable( {
+                "scrollX": true,
+                "scrollXollapse": true,
+                "language": { "lengthMenu": "Afficher _MENU_",
+                              "oPaginate": { "sFirst": "Suivant", // This is the link to the first page
+                                             "sPrevious": "Précédent", // This is the link to the previous page
+                                             "sNext": "Suivant", // This is the link to the next page
+                                             "sLast": "Précédent" }
+                            },
+                "info": false,
+                "bFilter": false,
+            } );
+        } );
+    </script>
+</body>
+
+
+</html>

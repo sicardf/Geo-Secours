@@ -1,0 +1,63 @@
+<%= javascript_include_tag 'usersinfo', 'data-turbolinks-track' => true %>
+
+
+  <div>
+    patientez nous vous localisons
+  </div>
+
+<script>
+var ERROR;
+function errorPosition(error){
+    switch (error.code){
+        case error.PERMISSION_DENIED:
+            alert("Vous n'avez pas autorisé l'accés à la géolocalisation");
+            break;
+        case error.POSITION_UNAVAILABLE:
+           ERROR = "Nous avons eu du mal à trouver votre position.. rafraichissez la page svp.";
+           break;
+        case error.TIMEOUT:
+           ERROR = "La géolocalisation a mis trop de temps, rafraichissez la page svp.";
+            break;
+        default:
+            break;
+    }
+};
+
+
+var ip = null;
+
+UserInfo.getInfo(function(data) {
+          ip = data.ip_address;
+          console.log(ip);
+          if (navigator.geolocation)
+          {
+              navigator.geolocation.getCurrentPosition(successPosition, errorPosition, {enableHighAccuracy : true, timeout:30000, maximumAge:600000});
+
+          }
+          else
+          {
+             //  alert("fail");
+          }
+});
+
+function successPosition(position) {
+
+    var infopos = "Position déterminée :\n";
+    infopos += "Latitude : "+position.coords.latitude +"\n";
+    infopos += "Longitude: "+position.coords.longitude+"\n";
+    infopos += "Altitude : "+position.coords.altitude +"\n";
+    console.log(infopos);
+    console.log(ip);
+    $.ajax({
+      type: "POST",
+      url: "/ajax/set_ip_loc",
+      data: '{'
+       + '"ip" : "' + ip + '",'
+       + '"lat" : "' + position.coords.latitude + '",'
+       + '"pos" : "' + position.coords.longitude + '"'
+       + '}'
+     }).done(function() {
+       window.location.replace('/issues/new');
+     });
+};
+</script>

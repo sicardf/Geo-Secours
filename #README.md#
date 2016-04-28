@@ -1,8 +1,8 @@
 # Geo-Secours
 
-* Ruby version : 2.3.0
+ Ruby version : 2.3.0
 
-* Rails version : 4.2.6
+ Rails version : 4.2.6
 
 * System dependencies
     - PostgreSQL 9.4.6
